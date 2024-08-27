@@ -38,4 +38,8 @@ body {
     visibility: visible !important;
     top: var(--topNavBarHeight) !important;
   }
+
+  main {
+    margin-left: var(--offcanvas-width) !important;
+  }
 }
