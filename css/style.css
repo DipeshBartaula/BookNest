@@ -43,3 +43,14 @@ body {
     margin-left: var(--offcanvas-width) !important;
   }
 }
+
+@media (max-width: 480px) {
+  .dashboard-counts .card {
+    margin-bottom: 20px;
+  }
+
+  .dashboard-tabs .nav-tabs .nav-link {
+    padding: 6px;
+    font-size: 12px;
+  }
+}
