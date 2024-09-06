@@ -49,7 +49,7 @@
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <img
-                            src="../assests/images/profile.jpeg"
+                            src="<?php echo BASE_URL ?>assests/images/profile.jpeg"
                             alt="Profile pic"
                             class="user-icon" />
                         Admin

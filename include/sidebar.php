@@ -10,7 +10,7 @@
                 <div class="text-secondary small text-uppercase fw-bold">core</div>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                <a class="nav-link active" aria-current="page" href="<?php echo BASE_URL ?>dashboard.php"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
             </li>
             <li class="nav-item my-0">
                 <hr />
