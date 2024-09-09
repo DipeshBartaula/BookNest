@@ -8,6 +8,7 @@
         href="<?php echo BASE_URL ?>assests/css/bootstrap.min.css"
         rel="stylesheet" />
     <link rel="stylesheet" href="<?php echo BASE_URL ?>assests/css/style.css" />
+    <link rel="stylesheet" href="<?php echo BASE_URL ?>assests/css/dataTables.bootstrap5.css" />
     <title>Dashboard | BookNest</title>
 </head>
 

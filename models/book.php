@@ -41,10 +41,84 @@ function getCategories($conn)
     return $result;
 }
 
+//Function to get books
+function getBooks($conn)
+{
+    $sql = "select b.*, c.name as category from books b left join categories c on c.id = b.category_id order by id desc";
+    $result = $conn->query($sql);
+    return $result;
+}
+//Function to get books by id
+function getBookById($conn, $id)
+{
+    $sql = "select * from books where id=$id";
+    $result = $conn->query($sql);
+    return $result;
+}
+
+//Function to delete book
+function deleteBook($conn, $id)
+{
+    $sql = "delete from books where id = $id";
+    $result = $conn->query($sql);
+    return $result;
+}
+
+//Function to update status of book
+function updateBookStatus($conn, $id, $status)
+{
+    $sql = "Update books set status=$status where id=$id";
+    $result = $conn->query($sql);
+    return $result;
+}
+
+// Function to update book
+function updateBook($conn, $param)
+{
+    extract($param);
+
+    //Validation start
+    if (empty($title)) {
+        $result = array("error" => "Title is required");
+        return $result;
+    } else if (empty($isbn)) {
+        $result = array("error" => "ISBN is required");
+        return $result;
+    } else if (!isIsbnUnique($conn, $isbn, $id)) {
+        $result = array("error" => "Repeated ISBN no.");
+        return $result;
+    } else if (empty($author)) {
+        $result = array("error" => "Author is required");
+        return $result;
+    } else if (empty($publication_year)) {
+        $result = array("error" => "Publication year is required");
+        return $result;
+    } else if (empty($category_id)) {
+        $result = array("error" => "Category is required");
+        return $result;
+    }
+    //Validation end
+    $datetime = date("Y-m-d H:i:s");
+
+    $sql = "update Books set 
+    title = '$title',
+    author = '$author',
+    publication_year = '$publication_year',
+    isbn = '$isbn',
+    category_id = $category_id,
+    updated_at = '$datetime'
+    where id = $id; 
+    ";
+    $result['success'] = $conn->query($sql);
+    return $result;
+}
 //Function to check unique isbn no.
-function isIsbnUnique($conn, $isbn)
+function isIsbnUnique($conn, $isbn, $id = NULL)
 {
     $sql = "select id from books where isbn='$isbn'";
+    if ($id) {
+        $sql .= " and id!=$id";
+    }
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         return false;
