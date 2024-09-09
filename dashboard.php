@@ -2,6 +2,14 @@
 
 include_once("config/config.php");
 include_once("config/database.php");
+include_once(DIR_URL . "/models/dashboard.php");
+
+$counts = getCounts($conn);
+$tabs = getTabData($conn);
+// echo "<pre>";
+// print_r($tabs);
+// exit;
+
 include_once(DIR_URL . "/include/header.php");
 include_once(DIR_URL . "/include/topbar.php");
 include_once(DIR_URL . "/include/sidebar.php");
@@ -22,7 +30,7 @@ include_once(DIR_URL . "/include/sidebar.php");
             <h5 class="card-title text-uppercase text-muted">
               Total Books
             </h5>
-            <h1>130</h1>
+            <h1><?php echo $counts['total_books'] ?></h1>
             <a href="#" class="card-link link-underline-light">View more</a>
           </div>
         </div>
@@ -33,7 +41,7 @@ include_once(DIR_URL . "/include/sidebar.php");
             <h5 class="card-title text-uppercase text-muted">
               Total Students
             </h5>
-            <h1>84</h1>
+            <h1><?php echo $counts['total_students'] ?></h1>
             <a href="#" class="card-link link-underline-light">View more</a>
           </div>
         </div>
@@ -44,7 +52,7 @@ include_once(DIR_URL . "/include/sidebar.php");
             <h5 class="card-title text-uppercase text-muted">
               Total Revenue
             </h5>
-            <h1>130</h1>
+            <h1><?php echo number_format($counts['total_revenue']) ?></h1>
             <a href="#" class="card-link link-underline-light">View more</a>
           </div>
         </div>
@@ -55,7 +63,7 @@ include_once(DIR_URL . "/include/sidebar.php");
             <h5 class="card-title text-uppercase text-muted">
               Total Books Loan
             </h5>
-            <h1>34</h1>
+            <h1><?php echo $counts['total_loans'] ?></h1>
             <a href="#" class="card-link link-underline-light">View more</a>
           </div>
         </div>
@@ -117,30 +125,29 @@ include_once(DIR_URL . "/include/sidebar.php");
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Preparing For</th>
+                  <th scope="col">Phone no.</th>
                   <th scope="col">Registered On</th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>
-                    <span class="badge rounded-pill text-bg-success">Active</span>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>
-                    <span class="badge rounded-pill text-bg-danger">Inactive</span>
-                  </td>
-                </tr>
+                <?php
+                $i = 1;
+                foreach ($tabs['students'] as $st) { ?>
+                  <tr>
+                    <th scope="row"><?php echo $i++ ?></th>
+                    <td><?php echo $st['name'] ?></td>
+                    <td><?php echo $st['phone_no'] ?></td>
+                    <td><?php echo date("d-m-y H:i A", strtotime($st['created_at'])) ?></td>
+                    <td>
+                      <?php
+                      if ($st['status'] == 1)
+                        echo '<span class="badge rounded-pill text-bg-success">Active</span>';
+                      else echo '<span class="badge rounded-pill text-bg-danger">Inactive</span>'
+                      ?>
+                    </td>
+                  </tr>
+                <?php } ?>
               </tbody>
             </table>
           </div>
@@ -162,26 +169,24 @@ include_once(DIR_URL . "/include/sidebar.php");
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                  <td>
-                    <span class="badge rounded-pill text-bg-success">Active</span>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@fat</td>
-                  <td>
-                    <span class="badge rounded-pill text-bg-danger">Returned</span>
-                  </td>
-                </tr>
+                <?php
+                $i = 1;
+                foreach ($tabs['loans'] as $loan) { ?>
+                  <tr>
+                    <th scope="row"><?php echo $i++ ?></th>
+                    <td><?php echo $loan['book_title'] ?></td>
+                    <td><?php echo $loan['student_name'] ?></td>
+                    <td><?php echo date("d-m-y H:i A", strtotime($loan['loan_date'])) ?></td>
+                    <td><?php echo date("d-m-y H:i A", strtotime($loan['return_date'])) ?></td>
+                    <td>
+                      <?php
+                      if ($loan['is_return'] == 1)
+                        echo '<span class="badge rounded-pill text-bg-success">Returned</span>';
+                      else echo '<span class="badge rounded-pill text-bg-warning">Active</span>'
+                      ?>
+                    </td>
+                  </tr>
+                <?php } ?>
               </tbody>
             </table>
           </div>
