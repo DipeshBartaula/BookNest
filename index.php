@@ -1,3 +1,30 @@
+<?php
+
+include_once("config/config.php");
+include_once("config/database.php");
+include_once(DIR_URL . "/models/auth.php");
+
+// $password = "admin";
+// echo $hash = password_hash($password, PASSWORD_DEFAULT);
+// exit;
+
+//Login functionality
+if (isset($_POST['submit'])) {
+  $res = login($conn, $_POST);
+  if ($res['status'] == true) {
+    $_SESSION['is_user_login'] = true;
+    $_SESSION['user'] = $res['user'];
+    header("LOCATION: " . BASE_URL . 'dashboard.php');
+    exit;
+  } else {
+    $_SESSION['error'] = "Invalid login information";
+    header("LOCATION: " . BASE_URL);
+    exit;
+  }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,34 +60,36 @@
             <div class="col-md-7">
               <div class="card-body">
                 <h1 class="card-title text-uppercase fw-bold">BookNest</h1>
+
+                <?php include_once(DIR_URL . "/include/alerts.php"); ?>
                 <p class="card-text">
                   Enter your email and password to login
                 </p>
-                <form action="./dashboard.php">
+                <form method="post" action="<?php echo BASE_URL ?>">
                   <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <label class="form-label">Email address</label>
                     <input
                       type="email"
                       class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp" />
+                      name="email" required />
                     <div id="emailHelp" class="form-text">
                       We'll never share your email with anyone else.
                     </div>
                   </div>
                   <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <label class="form-label">Password</label>
                     <input
                       type="password"
                       class="form-control"
-                      id="exampleInputPassword1" />
+                      name="password" required />
                   </div>
                   <button
                     style="
                         background: linear-gradient(to right, #00dbde, #fc00ff);
                       "
                     type="submit"
-                    class="btn btn-primary">
+                    class="btn btn-primary"
+                    name="submit">
                     Login
                   </button>
                 </form>
@@ -77,12 +106,9 @@
   </div>
 
   <script
-    src="./assests/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+    src="./assests/js/bootstrap.bundle.min.js"></script>
   <script
-    src="./assests/js/259c19a122.js"
-    crossorigin="anonymous"></script>
+    src="./assests/js/259c19a122.js"></script>
 </body>
 
 </html>
