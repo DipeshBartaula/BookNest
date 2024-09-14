@@ -53,7 +53,7 @@ include_once(DIR_URL . "/include/sidebar.php");
               Total Revenue
             </h5>
             <h1><i class="fa-solid fa-rupee-sign me-2"></i><?php echo number_format($counts['total_revenue']) ?></h1>
-            <a href="<?php echo BASE_URL ?>subscriptions" class="card-link link-underline-light">View more</a>
+            <a href="<?php echo BASE_URL ?>subscriptions/purchase-history.php" class="card-link link-underline-light">View more</a>
           </div>
         </div>
       </div>
