@@ -34,7 +34,7 @@ function getCounts($conn)
         $counts['total_loans'] = $books['total_loans'];
     }
     //Total revenue
-    $sql = "select sum(amount) as total_revenue from subscription_plans";
+    $sql = "select sum(amount) as total_revenue from subscriptions";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $books = mysqli_fetch_assoc($result);

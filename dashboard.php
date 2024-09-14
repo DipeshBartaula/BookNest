@@ -31,7 +31,7 @@ include_once(DIR_URL . "/include/sidebar.php");
               Total Books
             </h5>
             <h1><?php echo $counts['total_books'] ?></h1>
-            <a href="#" class="card-link link-underline-light">View more</a>
+            <a href="<?php echo BASE_URL ?>books" class="card-link link-underline-light">View more</a>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@ include_once(DIR_URL . "/include/sidebar.php");
               Total Students
             </h5>
             <h1><?php echo $counts['total_students'] ?></h1>
-            <a href="#" class="card-link link-underline-light">View more</a>
+            <a href="<?php echo BASE_URL ?>students" class="card-link link-underline-light">View more</a>
           </div>
         </div>
       </div>
@@ -52,8 +52,8 @@ include_once(DIR_URL . "/include/sidebar.php");
             <h5 class="card-title text-uppercase text-muted">
               Total Revenue
             </h5>
-            <h1><?php echo number_format($counts['total_revenue']) ?></h1>
-            <a href="#" class="card-link link-underline-light">View more</a>
+            <h1><i class="fa-solid fa-rupee-sign me-2"></i><?php echo number_format($counts['total_revenue']) ?></h1>
+            <a href="<?php echo BASE_URL ?>subscriptions" class="card-link link-underline-light">View more</a>
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@ include_once(DIR_URL . "/include/sidebar.php");
               Total Books Loan
             </h5>
             <h1><?php echo $counts['total_loans'] ?></h1>
-            <a href="#" class="card-link link-underline-light">View more</a>
+            <a href="<?php echo BASE_URL ?>loans" class="card-link link-underline-light">View more</a>
           </div>
         </div>
       </div>
@@ -208,26 +208,29 @@ include_once(DIR_URL . "/include/sidebar.php");
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                  <td>
-                    <span class="badge rounded-pill text-bg-success">Active</span>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@fat</td>
-                  <td>
-                    <span class="badge rounded-pill text-bg-danger">Expired</span>
-                  </td>
-                </tr>
+                <?php
+                $i = 1;
+                foreach ($tabs['subscriptions'] as $subs) { ?>
+                  <tr>
+                    <th scope="row"><?php echo $i++ ?></th>
+                    <td><?php echo $subs['student_name'] ?></td>
+                    <td>
+                      <span class="badge text-bg-info me-1"><?php echo $subs['plan_name'] ?></span>
+                      <i class="fa-solid fa-rupee-sign me-2"></i><?php echo $subs['amount'] ?>
+                    </td>
+                    <td><?php echo date("d-m-y H:i A", strtotime($subs['start_date'])) ?></td>
+                    <td><?php echo date("d-m-y H:i A", strtotime($subs['end_date'])) ?></td>
+                    <td>
+                      <?php
+                      $today = date("Y-m-d");
+                      if ($subs['end_date'] >= $today)
+                        echo '<span class="badge text-bg-success">Active</span>';
+                      else
+                        echo  '<span class="badge text-bg-danger">Expired</span>';
+                      ?>
+                    </td>
+                  </tr>
+                <?php } ?>
               </tbody>
             </table>
           </div>
